@@ -1,0 +1,26 @@
+{
+  "name": "europa-jwst-video",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "JWST finds carbon dioxide on Europa - an 8 minute Three.js / WebGL science film, rendered deterministically in GitHub Actions",
+  "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "check": "node scripts/check-timeline.mjs",
+    "snap": "node scripts/snap.mjs",
+    "audio": "python3 scripts/make_audio.py --mode full",
+    "audio:short": "python3 scripts/make_audio.py --mode short",
+    "render": "node scripts/render.mjs",
+    "assemble": "node scripts/assemble.mjs",
+    "thumbnail": "node scripts/thumbnail.mjs"
+  },
+  "dependencies": {
+    "@fontsource/inter": "5.1.1",
+    "@fontsource/space-grotesk": "5.1.0",
+    "puppeteer": "24.43.1",
+    "three": "0.170.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

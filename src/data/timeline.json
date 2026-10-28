@@ -1,0 +1,121 @@
+{
+  "_comment": "Single source of truth for BOTH the Three.js renderer and the audio builder. start times are computed from the order + dur. energy (0-1) drives the generated music.",
+  "full": [
+    { "id": "hook", "scene": "hook", "dur": 36, "energy": 0.35, "sfx": ["boom@28"],
+      "say": [
+        "Circling the giant planet Jupiter, there is a small world wrapped in ice.",
+        "Its name is Europa.",
+        "Scientists believe a hidden ocean lies beneath that crust, holding more than twice the water in all of Earth's seas.",
+        "And now, the James Webb Space Telescope has found carbon dioxide on its surface, in a spot that seems to point straight down to that ocean."
+      ] },
+    { "id": "meet", "scene": "meet", "dur": 40, "energy": 0.3,
+      "say": [
+        "Europa is slightly smaller than our own Moon, about three thousand one hundred kilometres across.",
+        "Its surface is water ice, crisscrossed by cracks and ridges, and colder than anywhere on Earth: far below minus one hundred degrees Celsius.",
+        "Jupiter's radiation floods the surface, enough to give an astronaut a lethal dose within hours.",
+        "Not exactly a place you would expect to look for life.",
+        "But the surface is only the outer layer of the story."
+      ] },
+    { "id": "scale", "scene": "scale", "dur": 16, "energy": 0.3,
+      "say": [
+        "To get a sense of scale: Europa is about a quarter of Earth's width, and just a little smaller than the Moon.",
+        "Yet it may hold twice as much water as Earth."
+      ] },
+    { "id": "ocean", "scene": "ocean", "dur": 48, "energy": 0.4,
+      "say": [
+        "Europa has a metal core, a rocky mantle, and above them, a global ocean of salty liquid water.",
+        "Estimates put the ice shell at roughly fifteen to thirty kilometres thick, and the ocean beneath it at sixty to a hundred and fifty kilometres deep.",
+        "That is many times deeper than any ocean on Earth, and it wraps the entire moon.",
+        "The layers here are not to scale.",
+        "This ocean may have existed for billions of years, hidden under a roof of ice."
+      ] },
+    { "id": "tides", "scene": "tides", "dur": 30, "energy": 0.45,
+      "say": [
+        "So what keeps that ocean from freezing solid?",
+        "Tides.",
+        "Europa is locked in a rhythm with its neighbours Io and Ganymede. For every orbit of Ganymede, Europa orbits twice, and Io four times.",
+        "That gravitational tug of war keeps squeezing and flexing Europa, and the friction deep inside produces heat."
+      ] },
+    { "id": "carbon", "scene": "carbon", "dur": 28, "energy": 0.4,
+      "say": [
+        "Life as we know it needs a few things: liquid water, a source of energy, and the right chemical ingredients.",
+        "Europa may have the water. Tidal heating could supply the energy.",
+        "But carbon, the backbone of life on Earth, had never been traced back to Europa's ocean."
+      ] },
+    { "id": "webb", "scene": "webb", "dur": 34, "energy": 0.55,
+      "say": [
+        "Enter the James Webb Space Telescope.",
+        "Its main mirror is six and a half metres wide, made of eighteen gold-coated hexagonal segments.",
+        "A five-layer sunshield, as big as a tennis court, keeps its instruments colder than minus two hundred degrees Celsius.",
+        "Webb sees infrared light, heat, which is exactly what we need to read the chemistry of icy worlds."
+      ] },
+    { "id": "l2", "scene": "l2", "dur": 16, "energy": 0.45,
+      "say": [
+        "It orbits a point called L2, about one and a half million kilometres from Earth, always shielded from the Sun's glare."
+      ] },
+    { "id": "observe", "scene": "observe", "dur": 36, "energy": 0.6,
+      "say": [
+        "In its early observations, Webb pointed its Near-Infrared Spectrograph at Europa.",
+        "Instead of taking a simple photo, this instrument splits the light from every pixel into a spectrum.",
+        "Different molecules absorb light at different wavelengths, leaving fingerprints in that spectrum.",
+        "Europa is only about ten pixels across, each covering a few hundred kilometres, but that is enough.",
+        "And it took only a few minutes of observing time."
+      ] },
+    { "id": "discovery", "scene": "discovery", "dur": 54, "energy": 0.9, "sfx": ["riser@0", "boom@6"],
+      "say": [
+        "The fingerprint appeared near four point two seven microns: the unmistakable signature of carbon dioxide ice.",
+        "And it was not spread evenly.",
+        "The carbon dioxide was concentrated in one region: Tara Regio, a patch of jumbled, broken ice about eighteen hundred kilometres across.",
+        "Scientists call this chaos terrain, a landscape where the ice shell has been shattered, with blocks of ice tilted and frozen in place.",
+        "A weaker signal also showed up in a neighbouring chaos region, Powys Regio.",
+        "Two independent teams, led by Geronimo Villanueva at NASA Goddard and Samantha Trumbo at Cornell, reached the same conclusion, in papers published in Science on the twenty-first of September, twenty twenty-three."
+      ] },
+    { "id": "flyover", "scene": "flyover", "dur": 28, "energy": 0.55,
+      "say": [
+        "Here is what that terrain might look like up close. An artist's visualisation, not a photograph.",
+        "Rafts of ice, broken apart and refrozen, with Jupiter hanging huge in the black sky.",
+        "In places like this, the ice shell may have been disrupted by material rising from below."
+      ] },
+    { "id": "source", "scene": "source", "dur": 36, "energy": 0.6,
+      "say": [
+        "But where did the carbon come from?",
+        "Carbon dioxide is not stable on Europa's surface, so it must have arrived geologically recently.",
+        "It could have been delivered by meteorites, or made on the surface by radiation.",
+        "But its concentration in young terrain, and the lack of complex organic molecules in the data, point to an internal source: the ocean.",
+        "Add Hubble's detection of table salt in the same region, in twenty nineteen, and the picture hangs together."
+      ] },
+    { "id": "caveats", "scene": "caveats", "dur": 24, "energy": 0.4,
+      "say": [
+        "None of this proves life. Webb saw no sign of water plumes, though that does not rule them out.",
+        "And carbon dioxide alone says nothing about biology.",
+        "A twenty twenty-six analysis of Webb data suggests it may extend across more of Europa's chaos terrain than first thought."
+      ] },
+    { "id": "next", "scene": "next", "dur": 32, "energy": 0.65,
+      "say": [
+        "The next chapters belong to spacecraft.",
+        "NASA's Europa Clipper launched in October twenty twenty-four, and swings past Earth in December twenty twenty-six for a final gravity assist.",
+        "It reaches Jupiter in April twenty thirty, and will make around fifty close flybys of Europa.",
+        "ESA's Juice follows, with two Europa flybys planned for July twenty thirty-two.",
+        "Together they will map Europa's ice, and test whether the ocean really connects to its surface."
+      ] },
+    { "id": "outro", "scene": "outro", "dur": 22, "energy": 0.35, "sfx": ["boom@0"],
+      "say": [
+        "Webb did not find life on Europa. But it gave us a map, pointing to where the ocean may reach the surface.",
+        "Would you be surprised if there is life under that ice? Tell me in the comments, and subscribe for more."
+      ] }
+  ],
+  "short": [
+    { "id": "s_hook", "scene": "hook", "dur": 10, "energy": 0.5, "opts": { "short": true },
+      "say": ["Beneath the ice of Jupiter's moon Europa hides an ocean with twice the water of all Earth's seas."] },
+    { "id": "s_ocean", "scene": "ocean", "dur": 8, "energy": 0.5, "opts": { "short": true },
+      "say": ["Warmed by tides, that ocean may have stayed liquid for billions of years."] },
+    { "id": "s_webb", "scene": "webb", "dur": 8, "energy": 0.6, "opts": { "short": true },
+      "say": ["Now, the James Webb Space Telescope has looked at its icy surface in infrared."] },
+    { "id": "s_discovery", "scene": "discovery", "dur": 17, "energy": 0.9, "opts": { "short": true }, "sfx": ["boom@2"],
+      "say": ["And it found carbon dioxide, concentrated in one region of shattered ice called Tara Regio. Carbon is a key ingredient for life, and this suggests it came up from the ocean below."] },
+    { "id": "s_source", "scene": "source", "dur": 9, "energy": 0.7, "opts": { "short": true },
+      "say": ["Because that ice is young, and carbon dioxide does not last, it was probably delivered recently, from below."] },
+    { "id": "s_next", "scene": "next", "dur": 10, "energy": 0.7, "opts": { "short": true },
+      "say": ["Is there life down there? Europa Clipper arrives in twenty thirty to find out. Follow for more."] }
+  ]
+}

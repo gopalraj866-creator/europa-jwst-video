@@ -1,0 +1,155 @@
+name: Render Europa × JWST video
+
+on:
+  workflow_dispatch:
+    inputs:
+      format:
+        description: "Output format"
+        type: choice
+        options: [1080p, 4k, shorts, all]
+        default: 1080p
+      fps:
+        description: "Frames per second"
+        type: choice
+        options: ["30", "24", "60"]
+        default: "30"
+      parallel:
+        description: "Parallel render jobs per format (1-20). More = faster, same total CPU time."
+        type: string
+        default: "16"
+      quality:
+        description: "standard = JPEG frames, CRF 16 · max = lossless PNG frames, CRF 12, slower preset"
+        type: choice
+        options: [standard, max]
+        default: standard
+      captions:
+        description: "Burn captions into the 16:9 video (Shorts always have them). An .srt is always produced."
+        type: boolean
+        default: false
+      voice:
+        description: "edge-tts voice (e.g. en-US-AndrewNeural, en-GB-RyanNeural, en-US-GuyNeural, en-IN-PrabhatNeural)"
+        type: string
+        default: en-US-AndrewNeural
+      release:
+        description: "Also publish the files as a GitHub Release"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.p.outputs.matrix }}
+      formats: ${{ steps.p.outputs.formats }}
+      modes: ${{ steps.p.outputs.modes }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: node scripts/check-timeline.mjs
+      - id: p
+        run: node scripts/plan-matrix.mjs
+        env:
+          FORMAT: ${{ inputs.format }}
+          PARALLEL: ${{ inputs.parallel }}
+
+  audio:
+    needs: plan
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        mode: ${{ fromJSON(needs.plan.outputs.modes) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg espeak-ng
+      - run: pip install -r requirements.txt
+      - name: Narration + music + mastering
+        run: python3 scripts/make_audio.py --mode ${{ matrix.mode }}
+        env:
+          VOICE: ${{ inputs.voice }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audio-${{ matrix.mode }}
+          path: |
+            build/audio/${{ matrix.mode }}
+            !build/audio/${{ matrix.mode }}/tmp
+          retention-days: 14
+
+  render:
+    needs: [plan, audio]
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/puppeteer
+          key: puppeteer-${{ hashFiles('package-lock.json') }}
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: audio-${{ matrix.mode }}
+          path: build/audio/${{ matrix.mode }}
+      - name: Render frames (software WebGL) and encode this chunk
+        run: |
+          node scripts/render.mjs \
+            --mode ${{ matrix.mode }} --res ${{ matrix.w }}x${{ matrix.h }} --fps ${{ inputs.fps }} \
+            --chunk ${{ matrix.chunk }} --chunks ${{ matrix.chunks }} \
+            --captions ${{ inputs.captions && '1' || (matrix.mode == 'short' && '1' || '0') }} \
+            ${{ inputs.quality == 'max' && '--format png --crf 12 --preset slow' || '' }} \
+            --out build/segments/seg_$(printf '%03d' ${{ matrix.chunk }}).mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: seg-${{ matrix.format }}-${{ matrix.chunk }}
+          path: build/segments/*.mp4
+          retention-days: 3
+
+  assemble:
+    needs: [plan, render]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.plan.outputs.formats) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: seg-${{ matrix.format }}-*
+          merge-multiple: true
+          path: build/segments
+      - uses: actions/download-artifact@v4
+        with:
+          name: audio-${{ matrix.mode }}
+          path: build/audio/${{ matrix.mode }}
+      - name: Concatenate + mux
+        run: node scripts/assemble.mjs --mode ${{ matrix.mode }} --name ${{ matrix.name }}
+      - name: Thumbnail (16:9 only)
+        if: matrix.mode == 'full'
+        run: node scripts/thumbnail.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FINAL-${{ matrix.name }}
+          path: build/final/*
+          retention-days: 14
+      - name: Publish release
+        if: inputs.release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${{ matrix.name }}-${{ github.run_number }}"
+          gh release create "$tag" build/final/* --title "$tag" --notes "Rendered by workflow run ${{ github.run_id }}"

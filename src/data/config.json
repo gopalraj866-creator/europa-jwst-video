@@ -1,0 +1,13 @@
+{
+  "channelName": "YOUR CHANNEL NAME",
+  "showWatermark": false,
+  "voice": "en-US-AndrewNeural",
+  "voiceRate": "-4%",
+  "voicePitch": "+0Hz",
+  "fallbackVoice": "en-GB-RyanNeural",
+  "narrationLeadIn": 0.9,
+  "sentenceGap": 0.38,
+  "targetLUFS": -14,
+  "musicDuckDb": -9,
+  "disclaimer": "Illustrative visualisation based on published research. Not actual imagery."
+}
